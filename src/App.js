@@ -6,8 +6,20 @@ import TodoForm from './components/TodoComponents/TodoForm';
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      list
+
+    if(!localStorage.list)
+    {
+      this.state = {
+        list
+      }
+
+      localStorage.list = JSON.stringify(this.state.list);
+    }
+    else
+    {
+      this.state = {
+        list: JSON.parse(localStorage.list)
+      }
     }
   };
 
@@ -23,6 +35,8 @@ class App extends React.Component {
         return item;
       })
     });
+
+    localStorage.list = JSON.stringify(this.state.list);
   };
 
   addItem = taskName => {
@@ -35,6 +49,8 @@ class App extends React.Component {
     this.setState({
       list: [...this.state.list, newItem]
     });
+
+    localStorage.list = JSON.stringify(this.state.list);
   }
 
   clearCompleted = () => {
@@ -44,6 +60,8 @@ class App extends React.Component {
           return !item.completed;
       })
     });
+
+    localStorage.list = JSON.stringify(this.state.list);
   }
 
   render() {
