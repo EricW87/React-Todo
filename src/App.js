@@ -2,6 +2,7 @@ import React from 'react';
 import { list } from './data.js';
 import ToDoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
+import SearchForm from './components/TodoComponents/SearchForm';
 
 class App extends React.Component {
   constructor() {
@@ -10,7 +11,8 @@ class App extends React.Component {
     if(!localStorage.list)
     {
       this.state = {
-        list
+        list,
+        search: ""
       }
 
       localStorage.list = JSON.stringify(this.state.list);
@@ -18,14 +20,15 @@ class App extends React.Component {
     else
     {
       this.state = {
-        list: JSON.parse(localStorage.list)
+        list: JSON.parse(localStorage.list),
+        search: "" //Search is cleared on reload
       }
     }
   };
 
   toggleItem = itemId => {
-    this.setState({
-      list: this.state.list.map(item => {
+    this.setState(
+      {list: this.state.list.map(item => {
         if(itemId === item.id) {
           return {
             ...item,
@@ -33,10 +36,11 @@ class App extends React.Component {
           };
         }
         return item;
-      })
-    });
-
-    localStorage.list = JSON.stringify(this.state.list);
+      }),
+      search: this.state.search
+    },
+    () => (localStorage.list = JSON.stringify(this.state.list))
+    );
   };
 
   addItem = taskName => {
@@ -46,30 +50,38 @@ class App extends React.Component {
       completed: false
     };
 
-    this.setState({
-      list: [...this.state.list, newItem]
-    });
+    this.setState(
+      {list: [...this.state.list, newItem], search: this.state.search},
+      () => (localStorage.list = JSON.stringify(this.state.list))
+    );
+  };
 
-    localStorage.list = JSON.stringify(this.state.list);
-  }
 
   clearCompleted = () => {
-    console.log("clear");
-    this.setState({
-      list: this.state.list.filter( item => {
+    this.setState(
+      {list: this.state.list.filter( item => {
           return !item.completed;
-      })
-    });
+      }), 
+      search: this.state.search},
+      () => (localStorage.list = JSON.stringify(this.state.list))
+    );
+  };
 
-    localStorage.list = JSON.stringify(this.state.list);
-  }
+  setSearch = term => {
+    this.setState({
+      list: this.state.list,
+      search: term
+    });
+  };
 
   render() {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
+        <SearchForm setSearch={this.setSearch} />
         <ToDoList 
-          list={this.state.list} 
+          list={this.state.list}
+          search={this.state.search} 
           toggleItem={this.toggleItem}
         />
         <TodoForm addItem={this.addItem} clearCompleted={this.clearCompleted} />

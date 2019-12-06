@@ -20,6 +20,14 @@ h2 {
     justify-content: space-around;
 }
 
+.search {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    margin: 0 auto;
+    justify-content: space-around;
+}
+
 input {
     width: 75%;
 }
