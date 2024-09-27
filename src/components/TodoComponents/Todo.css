@@ -1,0 +1,52 @@
+html {
+    background: linear-gradient(blue, purple) no-repeat center fixed;
+    background-size: cover;
+}
+h2 {
+    text-align: center;
+    font-size: 3em;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.forms {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 15%;
+    justify-content: space-around;
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    margin: 0 auto;
+    justify-content: space-around;
+}
+
+input {
+    width: 75%;
+}
+
+.task {
+    background: red;
+    font-weight: bold;
+    width: 25%;
+    margin: 10px 50px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.taskComplete {
+    background: green;
+    font-weight: bold;
+    width: 25%;
+    margin: 10px 50px;
+    padding: 20px;
+    cursor: pointer;
+    text-decoration: line-through;
+}
